@@ -1,19 +1,28 @@
 package com.example.productcatalogueproxy.Controller;
 
+import com.example.productcatalogueproxy.Services.iProductService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+@RequestMapping("/products")
 @RestController
 public class ProductController {
-    @GetMapping("/products")
+    iProductService s;
+
+    public ProductController(iProductService ps){
+        this.s = ps;
+    }
+
     public String getprods(){
 
         return "List of all prods";
     }
-@GetMapping("/products/{id}")
-    public String getprod(@PathVariable("id") String id1){
-        return "fetch prod with id" + id1;
+@GetMapping("{id}")
+    public String getprod(@PathVariable("id") Long id){
+return s.getprod(id);
+  //return "fetch prod with id" + id;
+
     }
 
     /*package org.example.productcatalogserviceproxy.Controllers;

@@ -1,7 +1,10 @@
+package com.example.productcatalogueproxy.Models;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@ToString
 public class ProductDto {
     private Long id;
     private String title;
