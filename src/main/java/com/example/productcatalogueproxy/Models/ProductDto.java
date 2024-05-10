@@ -1,5 +1,6 @@
 package com.example.productcatalogueproxy.Models;
 
+
 import lombok.Getter;
 import lombok.Setter;
 

@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ProductCatalogueProxyApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(ProductCatalogueProxyApplication.class, args);
+        System.out.println("test");
     }
 
 }
