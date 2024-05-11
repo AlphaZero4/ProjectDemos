@@ -16,6 +16,6 @@ public interface ProductRepo extends JpaRepository<Product,Long> {
 
     List<Product> findAllByOrderByIdDesc();
 
-    List<Product> findAllByIsSpecialTrue();
+
 
 }

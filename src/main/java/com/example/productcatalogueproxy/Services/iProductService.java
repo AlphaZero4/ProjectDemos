@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface iProductService {
@@ -17,5 +18,5 @@ public interface iProductService {
 
     Product createProduct( ProductDto dto);
 
-    Product updateProduct(ProductDto dto,Long id);
+    Product updateProduct(ProductDto dto,Long id) throws IOException;
 }

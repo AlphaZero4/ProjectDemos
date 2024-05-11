@@ -5,8 +5,16 @@ import com.example.productcatalogueproxy.FakeStoreDtos.ProductResponseDto;
 import com.example.productcatalogueproxy.Models.Product;
 import com.example.productcatalogueproxy.Models.ProductDto;
 import com.example.productcatalogueproxy.Repos.ProductRepo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.hc.client5.http.classic.methods.HttpPut;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +23,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 
+import javax.sound.midi.Patch;
+import java.io.IOException;
 import java.util.Optional;
 
 @Component
 public class FakeStoreAPIClient {
 
     RestTemplateBuilder restbuilder;
-    ProductRepo productRepo;
+
 
 
     public FakeStoreAPIClient(RestTemplateBuilder input) {
@@ -54,21 +64,33 @@ public class FakeStoreAPIClient {
 
 
         ResponseEntity<ProductResponseDto> response = temp.postForEntity("https://fakestoreapi.com/products",request, ProductResponseDto.class);
-        System.out.println(response.getBody().getTitle());
+
         return response.getBody();
         }
 
-    public ProductResponseDto updateProduct(ProductDto request,Long id){
+    public Boolean updateProduct(ProductDto request,Long id) throws IOException {
         //Optional<Product> existingProduct = productRepo.findById(id);
-
+        String url = "https://fakestoreapi.com/products";
+        CloseableHttpClient client = HttpClientBuilder.create().build();
+        HttpPut patchRequest = new HttpPut(url);
         //ProductResponseDto responseDto=new ProductResponseDto();
         //RestTemplate temp = restbuilder.build();
 
         RestTemplate rest = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
-        ResponseEntity<ProductResponseDto> response = rest.exchange("https://fakestoreapi.com/products", HttpMethod.PATCH, new ResponseEntity<>(request, HttpStatus.OK), ProductResponseDto.class);
+        System.out.println("before");
+       // ResponseEntity<ProductResponseDto> response = rest.exchange("https://fakestoreapi.com/products", HttpMethod.PATCH, new HttpEntity<>(request), ProductResponseDto.class);
 
+        // Convert ProductDTO to JSON String
+        String jsonString = new ObjectMapper().writeValueAsString(request);
+
+        StringEntity entity = new StringEntity(jsonString);
+        patchRequest.setEntity(entity);
+        HttpResponse response = client.execute(patchRequest);
+        System.out.println("after");
+        System.out.println(response.getCode());
+       // System.out.println(response.getBody().getTitle());
        // ResponseEntity<ProductResponseDto> response = temp.patchForObject("https://fakestoreapi.com/products", request, ProductResponseDto.class,id);
-        return response.getBody();
+        return Boolean.TRUE;
     }
 
 

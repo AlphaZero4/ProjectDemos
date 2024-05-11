@@ -13,6 +13,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,10 @@ public class FakeProductService implements iProductService {
     private FakeStoreAPIClient fakeStoreAPIClient;
 
     ProductRepo productRepo;
+
+    FakeProductService(ProductRepo repo){
+        this.productRepo = repo;
+    }
 
   /*  public FakeProductService(RestTemplateBuilder restTemplateBuilder, FakeStoreAPIClient fakeStoreAPIClient) {
         this.restbuilder = restTemplateBuilder;
@@ -55,20 +60,36 @@ public class FakeProductService implements iProductService {
         ProductResponseDto responseFakeStoreProductDto = fakeStoreAPIClient.createProduct(request);
         System.out.println(responseFakeStoreProductDto.getDescription());
         Product p = getProductFromDto(responseFakeStoreProductDto);
-     //   productRepo.save(p);
-        return p;
+        System.out.println("after save");
+        Product saved = productRepo.save(p);
+        return saved;
     }
 
-    public Product updateProduct(ProductDto request,Long id){
-        ProductResponseDto responseDto = fakeStoreAPIClient.updateProduct(request,id);
-
-        Product p = getProductFromDto(responseDto);
-        productRepo.save(p);
-        return p;
+    public Product updateProduct(ProductDto request,Long id) throws IOException {
+        //ProductResponseDto responseDto = fakeStoreAPIClient.updateProduct(request,id);
+Boolean flag = fakeStoreAPIClient.updateProduct(request,id);
+       // Product p = getProductFromDto(responseDto);
+        Product p =getProductFromDto(request);
+        Product saved = productRepo.save(p);
+        System.out.println("after save");
+        return saved;
 
     }
 
     private Product getProductFromDto(ProductResponseDto productDto) {
+        Product product = new Product();
+
+        product.setTitle(productDto.getTitle());
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+        product.setImageUrl(productDto.getImage());
+        Category category = new Category();
+        category.setName(productDto.getCategory());
+        product.setCategory(category);
+        product.setId(productDto.getId());
+        return product;
+    }
+    private Product getProductFromDto(ProductDto productDto) {
         Product product = new Product();
 
         product.setTitle(productDto.getTitle());
@@ -97,6 +118,27 @@ public class FakeProductService implements iProductService {
 
 
 /*
+
+
+    @Override
+    public Product updateProduct(Long id, Product product) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        //FakeStoreProductDto fakeStoreProductDto = restTemplate.patchForObject("https://fakestoreapi.com/{id}", product, FakeStoreProductDto.class,id);
+        ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity = requestForEntity(HttpMethod.PATCH,"https://fakestoreapi.com/{id}",product, FakeStoreProductDto.class,id);
+        Product resultantProduct = getProduct(fakeStoreProductDtoResponseEntity.getBody());
+        return resultantProduct;
+    }
+
+    private <T> ResponseEntity<T> requestForEntity(HttpMethod httpMethod, String url, @Nullable Object request, Class<T> responseType, Object... uriVariables) throws RestClientException {
+        //RestTemplate restTemplate = restTemplateBuilder.build();
+        RestTemplate restTemplate = restTemplateBuilder.requestFactory(
+                HttpComponentsClientHttpRequestFactory.class
+        ).build();
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
+        ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
+        return restTemplate.execute(url, httpMethod, requestCallback, responseExtractor, uriVariables);
+    }
+
     @Override
     public Product createProduct(Product product) {
         //RestTemplate restTemplate = restTemplateBuilder.build();

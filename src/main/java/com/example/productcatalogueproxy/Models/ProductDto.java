@@ -1,11 +1,14 @@
 package com.example.productcatalogueproxy.Models;
 
 
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class ProductDto {
     private Long id;
     private String title;
@@ -13,6 +16,7 @@ public class ProductDto {
     private Double price;
     private String image;
     private String category;
+
     private RatingDto ratingDto;
 }
 
