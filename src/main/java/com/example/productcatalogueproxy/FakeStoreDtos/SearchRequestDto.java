@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SearchRequestDto {
-    //private int pageSize;
-    //private int pageNum;
+    private int pageSize;
+     private int pageNum;
     private String query ;
 
 }

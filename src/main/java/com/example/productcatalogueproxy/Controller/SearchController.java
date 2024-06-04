@@ -18,11 +18,12 @@ public class SearchController {
     private SearchService searchService;
 
 
-@PostMapping
-    public List<ProductResponseDto> searchProucts(@RequestBody   SearchRequestDto req){
+@PostMapping("/all")
+    public List<ProductResponseDto> searchAllProucts(@RequestBody   SearchRequestDto req){
 
     //List<Product> products = searchService.seachProducts(req.getQuery(), req.getPageNum(), req.getPageSize())   ;
-    List<Product> products = searchService.seachProducts(req.getQuery())   ;
+    //List<Product> products = searchService.seachProducts(req.getQuery())   ;
+    List<Product> products = searchService.seachAllProducts(req.getQuery())      ;
 List<ProductResponseDto> dtos = new ArrayList<>();
     for(Product product:products){
         dtos.add(getDtoFromProduct(product));
@@ -32,6 +33,22 @@ List<ProductResponseDto> dtos = new ArrayList<>();
 
 
 }
+
+    @PostMapping("")
+    public List<ProductResponseDto> searchProuctsPage(@RequestBody   SearchRequestDto req){
+
+        //List<Product> products = searchService.seachProducts(req.getQuery(), req.getPageNum(), req.getPageSize())   ;
+        //List<Product> products = searchService.seachProducts(req.getQuery())   ;
+        List<Product> products = searchService.seachProductsPage(req.getQuery(), req.getPageNum(), req.getPageSize())      ;
+        List<ProductResponseDto> dtos = new ArrayList<>();
+        for(Product product:products){
+            dtos.add(getDtoFromProduct(product));
+        }
+
+        return dtos;
+
+
+    }
     private ProductResponseDto getDtoFromProduct(Product productDto) {
         ProductResponseDto product = new ProductResponseDto();
 

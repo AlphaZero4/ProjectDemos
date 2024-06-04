@@ -17,8 +17,8 @@ public interface ProductRepo extends JpaRepository<Product,Long> {
 
     List<Product> findAllByOrderByIdDesc();
 
-        List<Product> findByTitle(String query, Pageable pageable);
-        //List<Product> findByTitleLike(String query);
+        List<Product> findByTitleLike(String query, Pageable pageable);
+        List<Product> findByTitleLike(String query);
 
         //List<Product>
 
