@@ -17,10 +17,10 @@ public class SearchService  {
         this.productRepo = repo;
     }
 
-    //public List<Product> seachProducts(String query,int  pageNum,int pageSize){
-    public List<Product> seachProducts(String query){
+    public List<Product> seachProducts(String query,int  pageNum,int pageSize){
+    //public List<Product> seachProducts(String query){
 //return productRepo.findByTitle(query, PageRequest.of(pageNum,pageSize));
-        return productRepo.findByTitleEquals(query);
+        return productRepo.findByTitle(query,PageRequest.of(pageNumber,pageSize));
 
     }
 
