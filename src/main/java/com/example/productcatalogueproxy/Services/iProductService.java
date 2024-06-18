@@ -15,6 +15,7 @@ public interface iProductService {
 
     //@GetMapping("/products/{id}")
     Product getProduct( Long id);
+   Product getProductDetails(Long userId, Long productId);
 
     Product createProduct( ProductDto dto);
 

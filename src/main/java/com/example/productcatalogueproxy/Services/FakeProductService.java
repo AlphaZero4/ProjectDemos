@@ -10,13 +10,15 @@ import com.example.productcatalogueproxy.Models.ProductDto;
 import com.example.productcatalogueproxy.Repos.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+@Primary
 @Service
 public class FakeProductService implements iProductService {
     @Autowired
@@ -24,6 +26,8 @@ public class FakeProductService implements iProductService {
     @Autowired
     private FakeStoreAPIClient fakeStoreAPIClient;
 
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
     ProductRepo productRepo;
 
     FakeProductService(ProductRepo repo){
@@ -49,10 +53,27 @@ public class FakeProductService implements iProductService {
 
     @Override
     public Product getProduct(Long productId) {
-        return getProductFromDto(fakeStoreAPIClient.getProd(productId));
+        //apply caching
+
+        //check if in cache, if yes then read, else call fakestore  and store result
+    FakeProductDto fakeProductDto = null;
+    fakeProductDto = (FakeProductDto)redisTemplate.opsForHash().get("PRODUCTS",productId);
+    if(fakeProductDto!=null){
+        System.out.println("read from CACHE");
+        return getProductFromDto(fakeProductDto);
+    }
+    else{
+fakeProductDto = fakeStoreAPIClient.getProd(productId);
+        redisTemplate.opsForHash().put("PRODUCTS",productId,fakeProductDto);
+        System.out.println("read from API");
+        return getProductFromDto(fakeProductDto);
+    }
     }
 
-
+    @Override
+        public Product getProductDetails(Long userId, Long productId) {
+        return null;
+    }
     public Product createProduct(ProductDto request){
         //Product product = getProductFromDto(request);
 

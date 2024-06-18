@@ -21,6 +21,10 @@ public class ProductController {
         this.s = ps;
     }
 
+    @GetMapping("/{uid}/{pid}")
+    public Product getProductDetails(@PathVariable Long uid, @PathVariable Long pid) {
+        return s.getProductDetails(uid,pid);
+    }
     @GetMapping("")
     public ResponseEntity<List<Product>> getprods() {
 
