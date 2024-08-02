@@ -26,8 +26,8 @@ public class FakeProductService implements iProductService {
     @Autowired
     private FakeStoreAPIClient fakeStoreAPIClient;
 
-    @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
+    //@Autowired
+   // add if using redis ---- private RedisTemplate<String,Object> redisTemplate;
     ProductRepo productRepo;
 
     FakeProductService(ProductRepo repo){
@@ -43,6 +43,7 @@ public class FakeProductService implements iProductService {
     public List<Product> getProducts() {
         RestTemplate restTemplate = restbuilder.build();
         FakeProductDto[] fakeStoreProductDtos = restTemplate.getForEntity("https://fakestoreapi.com/products", FakeProductDto[].class).getBody();
+
         List<Product> products = new ArrayList<>();
         for (FakeProductDto productDto : fakeStoreProductDtos) {
             products.add(getProductFromDto(productDto));
@@ -57,14 +58,14 @@ public class FakeProductService implements iProductService {
 
         //check if in cache, if yes then read, else call fakestore  and store result
     FakeProductDto fakeProductDto = null;
-    fakeProductDto = (FakeProductDto)redisTemplate.opsForHash().get("PRODUCTS",productId);
+   //add if using redis fakeProductDto = (FakeProductDto)redisTemplate.opsForHash().get("PRODUCTS",productId);
     if(fakeProductDto!=null){
         System.out.println("read from CACHE");
         return getProductFromDto(fakeProductDto);
     }
     else{
 fakeProductDto = fakeStoreAPIClient.getProd(productId);
-        redisTemplate.opsForHash().put("PRODUCTS",productId,fakeProductDto);
+       //use if using redis-- redisTemplate.opsForHash().put("PRODUCTS",productId,fakeProductDto);
         System.out.println("read from API");
         return getProductFromDto(fakeProductDto);
     }

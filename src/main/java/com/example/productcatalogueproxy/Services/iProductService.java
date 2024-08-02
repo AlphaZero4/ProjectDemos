@@ -2,9 +2,6 @@ package com.example.productcatalogueproxy.Services;
 
 import com.example.productcatalogueproxy.Models.Product;
 import com.example.productcatalogueproxy.Models.ProductDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 import java.util.List;

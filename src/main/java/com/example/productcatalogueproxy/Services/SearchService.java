@@ -1,8 +1,7 @@
 package com.example.productcatalogueproxy.Services;
 
-import com.example.productcatalogueproxy.Models.BaseModel;
-import com.example.productcatalogueproxy.Models.Product;
 import com.example.productcatalogueproxy.Repos.ProductRepo;
+import com.example.productcatalogueproxy.Models.Product;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

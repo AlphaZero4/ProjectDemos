@@ -3,7 +3,6 @@ package com.example.productcatalogueproxy.Controller;
 import com.example.productcatalogueproxy.Models.Product;
 import com.example.productcatalogueproxy.Models.ProductDto;
 import com.example.productcatalogueproxy.Services.iProductService;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,11 @@ public class ProductController {
     public ProductController(iProductService ps) {
         this.s = ps;
     }
-
+    @GetMapping("/test")
+    public ResponseEntity<String> test () {
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<String>("welcome! It is accessible", headers, HttpStatus.OK);
+    }
     @GetMapping("/{uid}/{pid}")
     public Product getProductDetails(@PathVariable Long uid, @PathVariable Long pid) {
         return s.getProductDetails(uid,pid);
@@ -30,6 +33,7 @@ public class ProductController {
 
         //return "List of all prods";
         List<Product> products = s.getProducts();
+
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<List<Product>>(products, headers, HttpStatus.OK);
     }
@@ -47,6 +51,7 @@ public class ProductController {
             HttpHeaders headers = new HttpHeaders();
             return new ResponseEntity<Product>(product, headers, HttpStatus.OK);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             //throw e;
 
@@ -81,6 +86,7 @@ public class ProductController {
         }
         return  new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }
     /*package org.example.productcatalogserviceproxy.Controllers;
 

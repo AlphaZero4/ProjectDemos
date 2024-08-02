@@ -1,9 +1,9 @@
 package com.example.productcatalogueproxy.Services;
 
+import com.example.productcatalogueproxy.Repos.ProductRepo;
 import com.example.productcatalogueproxy.Models.Product;
 import com.example.productcatalogueproxy.Models.ProductDto;
 import com.example.productcatalogueproxy.Models.UserDto;
-import com.example.productcatalogueproxy.Repos.ProductRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 

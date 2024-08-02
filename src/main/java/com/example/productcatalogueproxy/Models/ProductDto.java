@@ -1,7 +1,6 @@
 package com.example.productcatalogueproxy.Models;
 
 
-import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

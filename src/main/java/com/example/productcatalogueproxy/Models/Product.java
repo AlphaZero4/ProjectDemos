@@ -1,6 +1,5 @@
 package com.example.productcatalogueproxy.Models;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;

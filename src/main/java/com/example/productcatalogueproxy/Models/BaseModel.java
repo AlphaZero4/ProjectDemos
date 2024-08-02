@@ -7,7 +7,6 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.processing.Generated;
 import java.util.Date;
 @Getter
 @Setter

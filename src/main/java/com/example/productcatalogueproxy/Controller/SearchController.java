@@ -1,10 +1,10 @@
 package com.example.productcatalogueproxy.Controller;
 
 import com.example.productcatalogueproxy.FakeStoreDtos.ProductResponseDto;
-import com.example.productcatalogueproxy.FakeStoreDtos.SearchRequestDto;
-import com.example.productcatalogueproxy.Models.Category;
 import com.example.productcatalogueproxy.Models.Product;
 import com.example.productcatalogueproxy.Services.SearchService;
+import com.example.productcatalogueproxy.FakeStoreDtos.SearchRequestDto;
+import com.example.productcatalogueproxy.Models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

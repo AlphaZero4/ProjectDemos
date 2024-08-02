@@ -1,6 +1,5 @@
 package com.example.productcatalogueproxy.FakeStoreDtos;
 
-import com.example.productcatalogueproxy.Models.RatingDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
