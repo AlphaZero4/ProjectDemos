@@ -60,7 +60,7 @@ public class KafkaConsumer {
             Authenticator auth = new Authenticator() {
                 //override the getPasswordAuthentication method
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("rajda1943@gmail.com", "gzeu zsvt uscz gqit");
+                    return new PasswordAuthentication("notification.mailer1@gmail.com", "uqhb qmxc uhpe axoy");
                 }
             };
             System.out.println("works till auth");

@@ -21,8 +21,8 @@ public class KafkaService {
             if(from==null){sendEmailMessageDto.setFrom("admin@scaler.com");}
             else sendEmailMessageDto.setFrom(from);
 
-            sendEmailMessageDto.setSubject("Welcome to this demonstration");
-            sendEmailMessageDto.setBody("Have a pleasant stay");
+            sendEmailMessageDto.setSubject(subject);
+            sendEmailMessageDto.setBody(body);
             kafkaProducerClient.sendMessage("sendEmail", objectMapper.writeValueAsString(sendEmailMessageDto));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
